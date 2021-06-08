@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  createdAt DateTime @default(now())
+  recipes   Recipe[]
+  brews     Brew[]
+}
+
+model Recipe {
+  id        String   @id @default(cuid())
+  time      Int
+  createdAt DateTime @default(now())
+  ratio     String
+  methodId  String
+  method    Method   @relation(fields: [methodId], references: [id])
+  steps     Step[]
+  Brew      Brew[]
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+}
+
+model Brew {
+  id       String   @id @default(cuid())
+  date     DateTime
+  recipeId String
+  recipe   Recipe   @relation(fields: [recipeId], references: [id])
+  coffeeId String
+  coffee   Coffee   @relation(fields: [coffeeId], references: [id])
+  User     User?    @relation(fields: [userId], references: [id])
+  userId   String?
+}
+
+model Origin {
+  id        String   @id @default(cuid())
+  name      String
+  producer  String?
+  height    Int?
+  countryId String
+  country   Country  @relation(fields: [countryId], references: [id])
+  Coffee    Coffee[]
+}
+
+model Coffee {
+  id          String        @id @default(cuid())
+  name        String
+  toastGrade  String
+  process     String?
+  family      String?
+  notes       String?
+  score       Int?
+  brew        Brew[]
+  originId    String
+  origin      Origin        @relation(fields: [originId], references: [id])
+  CoffeeBatch CoffeeBatch[]
+}
+
+model Method {
+  id     String   @id @default(cuid())
+  name   String   @unique
+  Recipe Recipe[]
+}
+
+model Store {
+  id        String  @id @default(cuid())
+  name      String
+  countryId String
+  country   Country @relation(fields: [countryId], references: [id])
+  contact   String?
+}
+
+model Country {
+  id     String   @id @default(cuid())
+  name   String
+  Origin Origin[]
+  Store  Store[]
+}
+
+model Step {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  Recipe      Recipe? @relation(fields: [recipeId], references: [id])
+  recipeId    String?
+}
+
+model CoffeeBatch {
+  id        String   @id @default(cuid())
+  coffeeId  String
+  coffee    Coffee   @relation(fields: [coffeeId], references: [id])
+  toastedOn DateTime
+}
+
+// Enum
+// no lo soporta sqlite
+// enum ToastGrade {
+//   SUPERLIGHT
+//   LIGHT
+//   MEDIUM
+//   MEDIUMDARK
+//   DARK
+//   SUPERDARK
+// }
