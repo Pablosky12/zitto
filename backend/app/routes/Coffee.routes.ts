@@ -1,8 +1,13 @@
-import {Router} from 'express'
-import CoffeeController from 'controllers/CoffeeController';
+import { Router } from "express";
+import CoffeeController from "controllers/CoffeeController";
+import { CreateCoffeeSchema } from "models/coffee.model";
+import { resourceValidatorMiddleware } from "middlewares/resourceValidator.middleware";
 
 export const router = Router();
 
-router.post('/', CoffeeController.CreateCoffee);
-router.get('/',CoffeeController.GetAllCoffee);
-
+router.post(
+  "/",
+  resourceValidatorMiddleware(CreateCoffeeSchema),
+  CoffeeController.CreateCoffee
+);
+router.get("/", CoffeeController.GetAllCoffee);

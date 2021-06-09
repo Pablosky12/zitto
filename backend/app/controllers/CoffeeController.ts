@@ -1,31 +1,33 @@
 import { PrismaClient } from "@prisma/client";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { CreateCoffee, CreateCoffeeSchema } from "models/coffee.model";
+import { catchAsync } from "middlewares/catchAsyncMiddleware";
+import { ValidationError } from "yup";
+import { AppError } from "utils/AppError";
 
 const prisma = new PrismaClient();
 
-function CreateCoffee(req: Request, res: Response) {
-  const reqBody:CreateCoffee = req.body;
-  const isValid = CreateCoffeeSchema.validate(reqBody, {abortEarly: false});
-  console.log(isValid.error);
-  // try {
-  //     prisma.coffee.create({
-  //         data: {
+async function CreateCoffee(req: Request, res: Response, next: NextFunction) {
+  const { name, origin, toastGrade }: CreateCoffee = req.body;
 
-  //         }
-  //     })
-  // }
-  res.send();
+  const result = await prisma.coffee.create({
+    data: {
+      name,
+      originId: origin,
+      toastGrade,
+    },
+  });
+  res.send(result);
 }
 
 async function GetAllCoffee(req: Request, res: Response) {
   const response = await prisma.coffee.findMany();
   res.send({
-      data: response
+    data: response,
   });
 }
 
 export default {
-  CreateCoffee,
+  CreateCoffee: catchAsync(CreateCoffee),
   GetAllCoffee,
 };

@@ -1,13 +1,12 @@
-import * as joi from "@hapi/joi";
-import 'joi-extract-type'
+import * as yup from 'yup'
 
-export const CreateCoffeeSchema = joi.object({
-  name: joi.string().required().min(3),
-  toastGrade: joi
+export const CreateCoffeeSchema = yup.object().shape({
+  name: yup.string().required().min(3),
+  toastGrade: yup
     .string()
-    .valid("SUPERLIGHT", "LIGHT", "MEDIUM", "MEDIUMDARK", "DARK", "SUPERDARK"),
-  origin: joi.string().required(),
+    .oneOf(["SUPERLIGHT", "LIGHT", "MEDIUM", "MEDIUMDARK", "DARK", "SUPERDARK"]).required( ),
+  origin: yup.string().required(),
 });
 
 
-export type CreateCoffee = joi.extractType<typeof CreateCoffeeSchema>
+export type CreateCoffee = yup.Asserts<typeof CreateCoffeeSchema>
