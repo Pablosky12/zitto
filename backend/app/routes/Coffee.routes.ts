@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import CoffeeController from '../controllers/CoffeeController';
+import CoffeeController from 'controllers/CoffeeController';
 
 export const router = Router();
 

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import { CreateCoffee, CreateCoffeeSchema } from "../models/coffee.model";
+import { CreateCoffee, CreateCoffeeSchema } from "models/coffee.model";
 
 const prisma = new PrismaClient();
 
