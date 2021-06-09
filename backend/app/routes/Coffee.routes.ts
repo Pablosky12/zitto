@@ -1,5 +1,5 @@
 import { Router } from "express";
-import CoffeeController from "controllers/CoffeeController";
+import CoffeeController from "controllers/Coffee.controller";
 import { CreateCoffeeSchema } from "models/coffee.model";
 import { resourceValidatorMiddleware } from "middlewares/resourceValidator.middleware";
 

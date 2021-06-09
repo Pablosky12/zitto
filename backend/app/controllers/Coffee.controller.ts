@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { CreateCoffee, CreateCoffeeSchema } from "models/coffee.model";
-import { catchAsync } from "middlewares/catchAsyncMiddleware";
+import { catchAsync } from "middlewares/catchAsync.middleware";
 import { ValidationError } from "yup";
 import { AppError } from "utils/AppError";
 
