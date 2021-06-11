@@ -20,16 +20,18 @@ model User {
 }
 
 model Recipe {
-  id        String   @id @default(cuid())
-  time      Int
-  createdAt DateTime @default(now())
-  ratio     String
-  methodId  String
-  method    Method   @relation(fields: [methodId], references: [id])
-  steps     Step[]
-  Brew      Brew[]
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    String?
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  time        Int
+  createdAt   DateTime @default(now())
+  ratio       String
+  methodId    String
+  method      Method   @relation(fields: [methodId], references: [id])
+  steps       Step[]
+  Brew        Brew[]
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      String?
 }
 
 model Brew {
@@ -92,6 +94,7 @@ model Step {
   id          String  @id @default(cuid())
   title       String
   description String?
+  time        Int?
   Recipe      Recipe? @relation(fields: [recipeId], references: [id])
   recipeId    String?
 }

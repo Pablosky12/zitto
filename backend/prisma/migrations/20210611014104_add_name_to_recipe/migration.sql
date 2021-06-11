@@ -1,7 +1,18 @@
+/*
+  Warnings:
+
+  - Added the required column `name` to the `Recipe` table without a default value. This is not possible if the table is not empty.
+
+*/
+-- AlterTable
+ALTER TABLE "Step" ADD COLUMN "time" INTEGER;
+
 -- RedefineTables
 PRAGMA foreign_keys=OFF;
 CREATE TABLE "new_Recipe" (
     "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "description" TEXT,
     "time" INTEGER NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "ratio" TEXT NOT NULL,
